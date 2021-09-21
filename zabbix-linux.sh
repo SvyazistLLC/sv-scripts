@@ -1,7 +1,29 @@
 #!/bin/sh
 
 dir=/etc/zabbix/zabbix_agentd.d/
+hostname=$(</etc/hostname)
+agentdConf=/etc/zabbix/zabbix_agentd.conf
+
+
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m'
+
+
 [ -d $dir ]  || mkdir -p  $dir
+
+echo '''PidFile=/run/zabbix/zabbix_agentd.pid
+LogFile=/var/log/zabbix/zabbix_agentd.log
+LogFileSize=0
+ListenPort=10050
+ListenIP=0.0.0.0
+ServerActive=127.0.0.1
+Include=/etc/zabbix/zabbix_agentd.d/*.conf
+Timeout=5
+Server=192.168.0.0/16''' > $agentdConf
+
+echo "Hostname=${hostname}" >> $agentdConf
+
 
 echo """# This is a configuration file for Template Linux Disk Performance itmicus.ru
 ############ GENERAL PARAMETERS #################
@@ -47,3 +69,7 @@ UserParameter=custom.netif.dev_id[*],cat /sys/class/net/$1/dev_id 2>/dev/null ||
 UserParameter=custom.netif.duplex[*],cat /sys/class/net/$1/duplex 2>/dev/null || echo "N/A"
 UserParameter=custom.netif.type[*],cat /sys/class/net/$1/type 2>/dev/null || echo -1
 UserParameter=ip_conntrack_max,test -f /proc/sys/net/netfilter/nf_conntrack_max && cat /proc/sys/net/netfilter/nf_conntrack_max || 0""" > /etc/zabbix/zabbix_agentd.d/os_linux_network.conf
+
+
+
+printf  "${GREEN}Check zabbix_agentd file settings ${RED} ${agentdConf}${NC} ${NC}\n"
