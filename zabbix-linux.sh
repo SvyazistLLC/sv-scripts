@@ -1,4 +1,8 @@
 #!/bin/sh
+
+dir=/etc/zabbix/zabbix_agentd.d/
+[ -d $dir ]  || mkdir -p  $dir
+
 echo """# This is a configuration file for Template Linux Disk Performance itmicus.ru
 ############ GENERAL PARAMETERS #################
 UserParameter=custom.vfs.dev.discovery,DEVS=`grep -E -v 'fd|loop|ram|sr|major|^$|dm-' /proc/partitions|awk '{if($2==0||($2%8==0))print $4}'|sed 's/\//\!/g'`;POSITION=1;echo "{";echo " \"data\":[";for DEV in $DEVS;do if [ $POSITION -gt 1 ];then echo -n ",";fi;echo -n " { \"{#DEVICENAME}\": \"$DEV\"}";POSITION=`expr $POSITION + 1`;done;echo "";echo " ]";echo "}"
