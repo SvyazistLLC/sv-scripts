@@ -8,5 +8,5 @@ Add template to linux zabbix agent
 Add ssh keys to linux host:
 ------
 ```bash
- sudo python -c "$(wget https://raw.githubusercontent.com/SvyazistLLC/sv-scripts/main/ssh.py -O -)"
+python3 -c "$(wget https://raw.githubusercontent.com/SvyazistLLC/sv-scripts/main/ssh.py -O -)"
  ```
