@@ -13,7 +13,7 @@ NC='\033[0m'
 [ -d $dir ]  || mkdir -p  $dir
 
 echo '''PidFile=/run/zabbix/zabbix_agentd.pid
-LogFile=/var/log/zabbix/zabbix_agentd.log
+LogFile=/var/log/zabbix-agent/zabbix_agentd.log
 LogFileSize=0
 ListenPort=10050
 ListenIP=0.0.0.0
